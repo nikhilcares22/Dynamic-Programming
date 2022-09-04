@@ -40,24 +40,41 @@
 // }
 // console.log(frogJump([30, 10, 60, 10, 60, 50], 5, []));
 
-function frogJump(arr, idx) {
-	//tabulation with space opt.
-	let prev = 0;
-	let prev2 = 0;
-	
-	for (let i = 1; i <= idx; i++) {
-		let left = 0;
-		let right = 0;
-		left = prev + Math.abs(arr[i] - arr[i - 1]);
-		i > 1 ? (right = prev2 + Math.abs(arr[i] - arr[i - 2])) : 0;
-        prev2 = prev;
-		if (i > 1) {
-			prev = Math.min(left, right);
-		} else {
-			prev = left;
+// function frogJump(arr, idx) {
+// 	//tabulation with space opt.
+// 	let prev = 0;
+// 	let prev2 = 0;
+
+// 	for (let i = 1; i <= idx; i++) {
+// 		let left = 0;
+// 		let right = 0;
+// 		left = prev + Math.abs(arr[i] - arr[i - 1]);
+// 		i > 1 ? (right = prev2 + Math.abs(arr[i] - arr[i - 2])) : 0;
+//         prev2 = prev;
+// 		if (i > 1) {
+// 			prev = Math.min(left, right);
+// 		} else {
+// 			prev = left;
+// 		}
+// 	}
+//     return prev;
+// }
+
+// console.log(frogJump([30, 10, 60, 10, 60, 50], 5, []));
+
+//  frog can do k jumps
+function frogJump(arr, i, k) {
+	if (i == 0) return 0;
+	let minSteps = undefined;
+	for (let j = 1; j <= k; j++) {
+		if (i - j > 0) {
+			jumpEnergy = frogJump(arr, i - j, k) + Math.abs(arr[i] - arr[i - j]);
+			minSteps == undefined
+				? (minSteps = jumpEnergy)
+				: (minSteps = Math.min(jumpEnergy, minSteps));
 		}
 	}
-    return prev;
+	return minSteps;
 }
 
-console.log(frogJump([30, 10, 60, 10, 60, 50], 5, []));
+console.log(frogJump([10, 20, 30], 2, 3));
