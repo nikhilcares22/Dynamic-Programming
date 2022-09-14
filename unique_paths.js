@@ -25,28 +25,52 @@
 
 // console.log(findUniquePaths(2, 2));
 
-function findUniquePaths(m, n, dp = []) {
-	//tabulation
-	if (dp.length == 0) {
-		//only write if not declared already
-		for (let i = 0; i <= m; i++) {
-			dp.push([]);
-		}
-	}
+// function findUniquePaths(m, n, dp = []) {
+// 	//tabulation
+// 	if (dp.length == 0) {
+// 		//only write if not declared already
+// 		for (let i = 0; i <= m; i++) {
+// 			dp.push([]);
+// 		}
+// 	}
+// 	for (let i = 0; i <= m; i++) {
+// 		for (let j = 0; j <= n; j++) {
+// 			if (i == 0 && i == j) {
+// 				dp[0][0] = 1;
+// 				continue;
+// 			}
+// 			let up = 0;
+// 			let left = 0;
+// 			if (i - 1 >= 0) up = dp[i - 1][j];
+// 			if (j - 1 >= 0) left = dp[i][j - 1];
+// 			dp[i][j] = up + left;
+// 		}
+// 	}
+// 	return dp[m][n];
+// }
+
+// console.log(findUniquePaths(2, 2));
+
+function findUniquePaths(m, n) {
+	//tabulation with space optimisation
+
+	let prevRow = new Array(n + 1).fill(0);
+	let temp = [];
 	for (let i = 0; i <= m; i++) {
 		for (let j = 0; j <= n; j++) {
-			if (i == 0 && i == j) {
-				dp[0][0] = 1;
+			if (i == 0 && j == 0) {
+				temp.push(1);
 				continue;
 			}
 			let up = 0;
 			let left = 0;
-			if (i - 1 >= 0) up = dp[i - 1][j];
-			if (j - 1 >= 0) left = dp[i][j - 1];
-			dp[i][j] = up + left;
+			if (i - 1 >= 0) up = prevRow[j];
+			if (j - 1 >= 0) left = temp[j - 1];
+			temp[j] = (up + left);
 		}
+		prevRow = temp;
 	}
-	return dp[m][n];
+	return prevRow[n];
 }
 
-console.log(findUniquePaths(2, 2));
+console.log(findUniquePaths(3, 3));
